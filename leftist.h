@@ -3,7 +3,6 @@
 #include <vector>
 #include "IHeap.h"
 #include "comparators.h"
-#include "protoNode.h"
 
 template <class T> class LeftistNode  {
 public:
@@ -54,19 +53,32 @@ template <class T> LeftistNode<T>*  _Merge(LeftistNode<T>* root_1, LeftistNode<T
 template <class T> class CLeftistHeap :public IHeap<T> {
 private:
 	LeftistNode<T> *head;
+	size_t sizeOfHeap;
 public:
-	CLeftistHeap():head(NULL) {}
-	T getMin()
-	{
-		return head->key;
+	CLeftistHeap():head(NULL), sizeOfHeap(0) {}
+	CLeftistHeap(T key): head(NULL), sizeOfHeap(1) {
+		head = new LeftistNode<T>(key);
 	}
-	void extractMin()
+	bool empty()
 	{
-		head = _Merge<T>( head->rightNode,  head->leftNode);
+		return sizeOfHeap == 0;
+	}
+	T extractMin()
+	{
+		T tmp = head->key;
+		head = _Merge(head->rightNode, head->leftNode);
+		sizeOfHeap--;
+		return tmp;
 	}
 	void insert(T key)
 	{
 		LeftistNode<T> *tmp = new LeftistNode<T>(key);
 		head = _Merge<T>(head, tmp);
+		sizeOfHeap++;
+	}
+	void merge(IHeap<T>* HeapSecond)
+	{
+		sizeOfHeap += dynamic_cast<CLeftistHeap<T>*> (HeapSecond)->sizeOfHeap;
+		head = _Merge(head, dynamic_cast<CLeftistHeap<T>*>(HeapSecond)->head);
 	}
 };
