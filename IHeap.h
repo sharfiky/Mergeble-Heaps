@@ -1,6 +1,6 @@
 #pragma once
 
-template<class T> class IHeap{
+template<class TT> class IHeap{
 	
 
 
