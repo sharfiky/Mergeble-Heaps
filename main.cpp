@@ -15,7 +15,9 @@
 
 int main()
 {
-	composite(1000000);
+	for (int i = 10; i <= 1000 * 1000; i *= 10)
+		composite(i);
+	
 	system("pause");
 	return 0;
 }

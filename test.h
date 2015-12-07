@@ -13,6 +13,7 @@
 #include <ctime>
 
 
+std::ofstream result("result.txt");
 
 typedef int timeType;
 
@@ -156,18 +157,17 @@ void checker(int N)
 	checkOneHeap<CSkewHeap<int>> (N, a, skewTime);
 	checkOneHeap<CLeftistHeap<int>> (N, b, lefTime);
 	checkOneHeap<CBinomialHeap<int>> (N, c, binTime);
-
 	for (int i = 0; i < N; ++i)
 		if (!checkthree(a[i], b[i], c[i]))
 		{
-			cout << "error " << i << "\n";
+			result << "error " << i << "\n";
 			return;
 		}
 
-	cout << "Everything is awesome\n";
-	cout << "WorkTime of SkewHeap is " << skewTime  <<"\n";
-	cout << "WorkTime of LeftistHeap is " << lefTime << "\n";
-	cout << "WorkTime of BinomialHeap is " << binTime << "\n";
+	result << "Everything is awesome\n";
+	result << "WorkTime of SkewHeap is " << skewTime  <<"\n";
+	result << "WorkTime of LeftistHeap is " << lefTime << "\n";
+	result << "WorkTime of BinomialHeap is " << binTime << "\n\n";
 
 }
 

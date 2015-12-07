@@ -15,6 +15,16 @@ public:
 	SkewNode(T key) : rightNode(NULL), leftNode(NULL), key(key) {}
 	SkewNode(const SkewNode<T> *b) : rightNode(b->rightNode), leftNode(b->leftNode),
 		key(key) {}
+	~SkewNode() {
+		if (leftNode) {
+			delete leftNode;
+			leftNode = NULL;
+		}
+		if (rightNode) {
+			delete rightNode;
+			right = NULL;
+		}
+	}
 };
 
 template<class T> SkewNode<T>* _Merge(SkewNode<T>* root_1, SkewNode<T>* root_2)
@@ -49,6 +59,10 @@ public:
 	CSkewHeap():head(NULL), sizeOfHeap(0){}
 	CSkewHeap(T key): head(NULL), sizeOfHeap(1) {
 		head = new SkewNode<T>(key);
+	}
+	~CSkewHeap()
+	{
+		delete head;
 	}
 
 	bool empty()

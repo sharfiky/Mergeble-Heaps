@@ -13,13 +13,23 @@ public:
 	LeftistNode(T key) : rightNode(NULL), leftNode(NULL), key(key) {}
 	LeftistNode(const LeftistNode *b) : rightNode(b->rightNode), leftNode(b->leftNode), 
 		key(b->key), dist(b->dist) {}
+	~LeftistNode() {
+		if (leftNode) {
+			delete leftNode;
+			leftNode = NULL;
+		}
+		if (rightNode) {
+			delete rightNode;
+			right = NULL;
+		}
+	}
 };
 
 template <class T> LeftistNode<T>*  _Merge(LeftistNode<T>* root_1, LeftistNode<T>*  root_2) {
 	
 	LeftistNode<T>* firstRoot = root_1;
 	LeftistNode<T>* secondRoot = root_2;
-	
+
 	if (firstRoot == NULL)
 		return secondRoot;
 	else if (secondRoot == NULL)
@@ -59,10 +69,15 @@ public:
 	CLeftistHeap(T key): head(NULL), sizeOfHeap(1) {
 		head = new LeftistNode<T>(key);
 	}
+	~CLeftistHeap()
+	{
+		delete head;
+	}
 	bool empty()
 	{
 		return sizeOfHeap == 0;
 	}
+	
 	T extractMin()
 	{
 		T tmp = head->key;
@@ -70,15 +85,17 @@ public:
 		sizeOfHeap--;
 		return tmp;
 	}
+	
 	void insert(T key)
 	{
 		LeftistNode<T> *tmp = new LeftistNode<T>(key);
 		head = _Merge<T>(head, tmp);
 		sizeOfHeap++;
 	}
+	
 	void merge(IHeap<T>* HeapSecond)
 	{
 		sizeOfHeap += dynamic_cast<CLeftistHeap<T>*> (HeapSecond)->sizeOfHeap;
-		head = _Merge(head, dynamic_cast<CLeftistHeap<T>*>(HeapSecond)->head);
+		head = _Merge(head, dynamic_cast<CLeftistHeap<T>*> (HeapSecond)->head);
 	}
 };
